@@ -58,7 +58,7 @@ export default defineComponent({
       return !this.sliders.length && !this.albums.length;
     },
   },
-  async mounted() {
+  async created() {
     this.sliders = await getBanner();
     this.albums = await getHotDiscRecommend();
   },
@@ -127,20 +127,22 @@ export default defineComponent({
           flex-direction: column;
           justify-content: center;
           flex: 1;
-          line-height: 20px;
           height: 50px;
           overflow: hidden;
           font-size: $font-size-medium;
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: rgba(255, 255, 255, 0.2);
           padding: 0 20px;
           border-radius: 0 5px 5px 0;
+          z-index: -1;
         }
         .name {
-          margin-bottom: 5px;
+          @include no-wrap();
           color: $color-text;
+          margin-bottom: 7px;
         }
         .title {
           @include no-wrap();
+          font-size: 12px;
           color: $color-text-d;
         }
       }
