@@ -7,7 +7,7 @@ import TopList from '@/views/top-list.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    redirect: '/recommend'
+    redirect: '/singer'
   }, {
     path: '/recommend',
     name: 'recommend',

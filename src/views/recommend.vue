@@ -69,7 +69,7 @@ export default defineComponent({
 .recommend {
   position: fixed;
   width: 100%;
-  top: 44px;
+  top: $header-top;
   bottom: 0;
   overflow: scroll;
   z-index: -99;
