@@ -21,7 +21,7 @@
       v-loading="!songs.length"
     >
       <div class="song-list-wrapper">
-        <song-list :songs="songs" @select="selectItem" :rank="rank"></song-list>
+        <song-list :songs="songs"></song-list>
       </div>
     </scroll>
   </div>

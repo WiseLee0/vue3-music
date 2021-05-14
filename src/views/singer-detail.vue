@@ -15,7 +15,7 @@ export default {
   name: "singer-detail",
   components: { MusicList },
   props: {
-    singer: {
+    data: {
       type: Object,
       default: () => {},
     },
@@ -23,10 +23,28 @@ export default {
   data() {
     return {
       songs: [],
+      singer: {},
     };
   },
   async created() {
+    if (!this.cacheSinger()) return;
     this.songs = await getSingerSong(this.singer.mid);
+  },
+  methods: {
+    cacheSinger() {
+      const key = this.$route.params.id;
+      if (!this.data.mid)
+        this.singer = JSON.parse(sessionStorage.getItem(key)) || {};
+      else this.singer = this.data;
+      if (!this.singer || !this.singer.mid) {
+        const path = this.$route.matched[0].path;
+        this.$router.push({
+          path,
+        });
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>

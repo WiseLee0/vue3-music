@@ -2,10 +2,10 @@
   <div class="singer">
     <singer-list :data="singerList" @select="onSingerSelected"></singer-list>
   </div>
-  <router-view :singer="singer"></router-view>
+  <router-view :data="singer"></router-view>
 </template>
 
-<script>
+<script lang="ts">
 import { getSingerList } from "@/api/singer";
 import singerList from "@/components/singer-list/singer-list.vue";
 export default {
@@ -23,6 +23,7 @@ export default {
   methods: {
     onSingerSelected(item) {
       this.singer = item;
+      sessionStorage.setItem(item.mid, JSON.stringify(item));
       this.$router.push({
         path: `/singer/${item.mid}`,
       });
