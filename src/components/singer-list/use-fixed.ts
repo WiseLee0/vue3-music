@@ -15,7 +15,7 @@ export default function useFixed(props) {
         for (let i = 0; i < heights.length; i++) {
             const cur = heights[i];
             const next = heights[i + 1];
-            if (y > cur && y < next) listIndex.value = i
+            if (y >= cur && y < next) listIndex.value = i
         }
     })
     const fixedTitle = computed(() => {
