@@ -1,7 +1,8 @@
 <template>
   <div class="singer">
-    <singer-list :data="singerList"></singer-list>
+    <singer-list :data="singerList" @select="onSingerSelected"></singer-list>
   </div>
+  <router-view :singer="singer"></router-view>
 </template>
 
 <script>
@@ -13,10 +14,19 @@ export default {
   data() {
     return {
       singerList: [],
+      singer: "",
     };
   },
   async created() {
     this.singerList = await getSingerList();
+  },
+  methods: {
+    onSingerSelected(item) {
+      this.singer = item;
+      this.$router.push({
+        path: `/singer/${item.mid}`,
+      });
+    },
   },
 };
 </script>

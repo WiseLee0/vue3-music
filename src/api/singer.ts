@@ -1,3 +1,26 @@
+import axios from "axios"
+import { baseUrl } from "./config"
+
+export const getSingerSong = async (singermid) => {
+    const url = baseUrl + 'getSingerHotsong'
+    const res = await axios.get(url, {
+        params: {
+            singermid,
+            limit: 100
+        }
+    })
+    const list = res.data.response.singer.data.songlist.map(r => {
+        const singer = r.singer.map(s => s.name).join('/') + "-" + r.album.name
+        const name = `${r.title} ${r.subtitle}`
+        return {
+            mid: r.mid,
+            singer,
+            name
+        }
+    })
+    return list
+}
+
 export const getSingerList = async () => {
     return [
         {

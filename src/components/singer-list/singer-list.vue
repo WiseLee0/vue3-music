@@ -52,6 +52,7 @@ import useShortcut from "./use-shortcut";
 export default {
   components: { scroll },
   name: "index-list",
+  emits: ["select"],
   props: {
     data: {
       type: Array,
@@ -60,7 +61,7 @@ export default {
       },
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { listRef, onScroll, fixedTitle, fixedStyle, listIndex } = useFixed(
       props
     );
@@ -70,6 +71,9 @@ export default {
       onShortcutTouchMove,
       scrollRef,
     } = useShortcut(props, listRef);
+    function onItemClick(item) {
+      emit("select", item);
+    }
     return {
       listRef,
       // uesFixed
@@ -82,8 +86,11 @@ export default {
       onShortcutTouchStart,
       onShortcutTouchMove,
       scrollRef,
+      // singer-list
+      onItemClick,
     };
   },
+  methods: {},
 };
 </script>
 
