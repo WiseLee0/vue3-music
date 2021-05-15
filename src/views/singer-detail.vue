@@ -4,6 +4,7 @@
       :songs="songs"
       :title="singer.name"
       :pic="singer.pic"
+      :loading="loading"
     ></music-list>
   </div>
 </template>
@@ -24,11 +25,13 @@ export default {
     return {
       songs: [],
       singer: {},
+      loading: true,
     };
   },
   async created() {
     if (!this.cacheSinger()) return;
     this.songs = await getSingerSong(this.singer.mid);
+    this.loading = false;
   },
   methods: {
     cacheSinger() {

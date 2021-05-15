@@ -18,7 +18,8 @@
       :probe-type="3"
       @scroll="onScroll"
       :style="scrollStyle"
-      v-loading="!songs.length"
+      v-result:[noResultText]="noResult"
+      v-loading="loading"
     >
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
@@ -57,6 +58,9 @@ export default {
     this.imageHeight = this.$refs.bgImage.clientHeight;
   },
   computed: {
+    noResult() {
+      return !this.loading && !this.songs.length;
+    },
     bgImageStyle() {
       const FIXED_HEIGHT = 40;
       // 缩放系数
