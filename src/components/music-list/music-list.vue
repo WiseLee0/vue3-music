@@ -6,7 +6,7 @@
     <h1 class="title">{{ title }}</h1>
     <div class="bg-image" :style="bgImageStyle" ref="bgImage">
       <div class="play-btn-wrapper" :style="playBtnStyle">
-        <div v-show="songs.length > 0" class="play-btn" @click="random">
+        <div v-show="songs.length > 0" class="play-btn" @click="onRandom">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -22,7 +22,7 @@
       v-loading="loading"
     >
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list :songs="songs" @select="selectItem"></song-list>
       </div>
     </scroll>
   </div>
@@ -31,6 +31,7 @@
 <script lang="ts">
 import SongList from "@/components/base/song-list/song-list.vue";
 import Scroll from "../base/scroll/scroll.vue";
+import { mapActions } from "vuex";
 export default {
   name: "music-list",
   components: { SongList, Scroll },
@@ -121,6 +122,16 @@ export default {
     onScroll({ y }) {
       this.scrollY = y;
     },
+    selectItem({ index }) {
+      this.selectPlay({
+        list: this.songs,
+        index,
+      });
+    },
+    onRandom() {
+      this.randomPlay(this.songs);
+    },
+    ...mapActions(["selectPlay", "randomPlay"]),
   },
 };
 </script>
