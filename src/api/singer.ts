@@ -1,5 +1,16 @@
 import axios from "axios"
-import { baseUrl } from "./config"
+import { baseUrl, fallbackPicUrl } from "./config"
+
+const getSongs = async (songmid) => {
+    const url = baseUrl + 'getMusicPlay'
+    const res = await axios.get(url, {
+        params: {
+            songmid: songmid.join(','),
+            resType: 'play'
+        }
+    })
+    return res.data.data.playUrl
+}
 
 export const getSingerSong = async (singermid) => {
     const url = baseUrl + 'getSingerHotsong'
@@ -9,16 +20,33 @@ export const getSingerSong = async (singermid) => {
             limit: 100
         }
     })
+    const mids = []
     const list = res.data.response.singer.data.songlist.map(r => {
+        mids.push(r.mid)
         const singer = r.singer.map(s => s.name).join('/') + "-" + r.album.name
         const name = `${r.title} ${r.subtitle}`
+        const pmid = r.album.pmid
+        const pic = pmid ? `https://y.gtimg.cn/music/photo_new/T002R800x800M000${pmid}.jpg?max_age=2592000` : fallbackPicUrl;
         return {
             mid: r.mid,
             singer,
-            name
+            name,
+            pic,
+            duration: r.interval
         }
     })
-    return list
+    const songs = await getSongs(mids)
+    const ans = []
+    for (let i = 0; i < list.length; i++) {
+        const key = list[i].mid
+        if (songs[key] && songs[key].url.length) {
+            ans.push({
+                ...list[i],
+                url: songs[key].url
+            })
+        }
+    }
+    return ans
 }
 
 export const getSingerList = async () => {
